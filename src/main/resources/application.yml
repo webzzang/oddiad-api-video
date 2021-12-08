@@ -1,0 +1,18 @@
+server:
+  port: 28100
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+  shutdown: graceful
+spring:
+  profiles:
+    active: local
+
+# 파일업로드
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+

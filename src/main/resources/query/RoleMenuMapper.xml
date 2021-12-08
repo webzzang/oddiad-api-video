@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exflyer.oddi.app.repository.mapper.RoleMenuMapper">
+	<select id="isCreateActionAccessAble" resultType="java.lang.Boolean">
+		select count(*) from manager m, role_menu mm
+		where m.role_seq = mm.role_seq
+			and menu_id = #{menuCode}
+			and m.id = #{managerId}
+			and mm.reg_authority = true
+	</select>
+	<select id="isReadActionAccessAble" resultType="java.lang.Boolean">
+		select count(*) from manager m, role_menu mm
+		where m.role_seq = mm.role_seq
+			and menu_id = #{menuCode}
+			and m.id = #{managerId}
+			and mm.search_authority = true
+	</select>
+	<select id="isUpdateActionAccessAble" resultType="java.lang.Boolean">
+		select count(*) from manager m, role_menu mm
+		where m.role_seq = mm.role_seq
+			and menu_id = #{menuCode}
+			and m.id = #{managerId}
+			and mm.mod_authority = true
+	</select>
+	<select id="isDeleteActionAccessAble" resultType="java.lang.Boolean">
+		select count(*) from manager m, role_menu mm
+		where m.role_seq = mm.role_seq
+			and menu_id = #{menuCode}
+			and m.id = #{managerId}
+			and mm.del_authority = true
+	</select>
+</mapper>

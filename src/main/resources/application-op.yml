@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    hikari:
+      username: nextnow
+      password: "nextnow1@#"
+      pool-name: nextnow-cp
+      max-lifetime: 12000
+      connection-test-query: select now()
+      minimum-idle: 10
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: "jdbc:mysql://ls-407e4b156de499a36a744f356681864a305ab178.cvxedmimklz0.ap-northeast-2.rds.amazonaws.com:3306/nextnow_template"
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults=false: false
+logging:
+  config: classpath:logback-op.xml
+
+# timezone
+timezone: "Asia/Seoul"
+
+# two factor type
+twofactor:
+  type: "SMS"
+
+token:
+  expired-min: 60

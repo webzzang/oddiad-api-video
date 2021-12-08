@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exflyer.oddi.app.repository.mapper.DeviceMapper">
+
+	<!-- 디바이스 ID 유효성 체크 -->
+	<select id="getDeviceIdChk" resultType="int">
+	/* DeviceMapper.getDeviceIdChk */
+		select count(*) as cnt
+		from device_info
+		where 1=1
+		  and device_id = #{device_id}
+	</select>
+	
+	<!-- 디바이스 토큰 조회 -->
+	<select id="getDeviceToken" resultType="String">
+	/* DeviceMapper.getDeviceToken */
+		select fcm_token
+		from device_info
+		where 1=1
+		  and device_id = #{device_id}
+	</select>
+	
+	<!-- 디바이스 정보 저장 -->
+	<insert id="insertDeviceInfo" parameterType="java.util.HashMap" >
+	/* DeviceMapper.insertDeviceInfo */
+		insert into device_info
+		(
+			  device_id		     /* 디바이스 ID */
+			, fcm_token          /* 토큰(PUSH 발송용) */
+			, device_model       /* 디바이스 모델명 (ex. TCL tv, Chromecast) */
+			, android_id         /* 디바이스에 설치된 Android id 값(os 가 재설치 되기 전까지 유니크) */
+			, reg_date           /* 생성 날짜 */
+			, reg_id             /* 생성 id */
+		)
+		values
+		(
+			  #{device_id}
+			, #{fcm_token}
+			, #{device_model}
+			, #{android_id}
+			, #{sysdate}
+			, 'app_api'
+		)
+		
+	</insert>
+	
+	
+	
+	<!-- 디바이스 상태 저장 -->
+	<update id="insertDeviceState" parameterType="java.util.HashMap" >
+	/* DeviceMapper.insertDeviceState */
+		insert into device_state
+		(
+			  device_id        /* 디바이스 ID */
+			, device_state     /* 상태 코드 */
+			, content_id       /* 컨텐츠 id */
+			, mod_date         /* 변경 날짜 */
+		)
+		values
+		(
+			  #{device_id}
+			, #{device_state}
+			, #{content_id}
+			, #{sysdate}
+		)
+		on duplicate key update
+			  device_state  = #{device_state}
+			, content_id    = #{content_id}  
+			, mod_date      = #{sysdate}
+		
+	</update>
+	
+	<!-- 디바이스 상태 저장 이력-->
+	<insert id="insertDeviceStateHistory" parameterType="java.util.HashMap" >
+	/* DeviceMapper.insertDeviceStateHistory */
+		insert into device_state_history
+		(
+			  device_id       /* 디바이스 ID */ 
+			, device_state    /* 상태 코드 */   
+			, content_id      /* 컨텐츠 id */  
+			, reg_date        /* 생성 날짜 */   
+		)
+		values
+		(
+			  #{device_id}
+			, #{device_state}
+			, #{content_id}
+			, #{sysdate}
+		)
+		
+	</insert>
+
+
+	<!-- 디바이스 Exception 발생 로그 저장 -->
+	<insert id="insertDeviceExceptionLog" parameterType="java.util.HashMap" >
+	/* DeviceMapper.insertDeviceExceptionLog */
+		insert into device_exception_log
+		(
+			  device_id           /* 디바이스 ID */
+			, acc_count           /* Exception 카운트 */
+			, reg_date            /* 생성 날짜 */
+		)
+		values
+		(
+			  #{device_id}
+			, #{acc_count}
+			, #{sysdate}
+		)
+		
+	</insert>
+	
+	<!-- 디바이스 FCM 송수신 저장 -->
+	<insert id="insertDeviceFcmResponsen" parameterType="java.util.HashMap" >
+	/* DeviceMapper.insertDeviceFcmResponsen */
+		insert into device_fcm_history
+		(
+			  device_id		/* 디바이스 ID */
+			, type			/* 송수신,구분 */
+			, push_id		/* FCM 수신 ID */
+			, action		/* 액션 */
+			, screen_type   /* 스크린 타입 */
+			, reg_date		/* 생성 날짜 */
+		)
+		values
+		(
+			  #{device_id}
+			, #{type}
+			, #{push_id}
+			, #{action}
+			, #{screen_type}
+			, #{sysdate}
+		)
+		
+	</insert>
+
+</mapper>

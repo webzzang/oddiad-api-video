@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>AJAX Example</title>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+$().ready(function(){
+	fn_page("1");
+});
+
+	function fn_page(pageNo){
+		
+	    $.ajax(
+	        {
+	            url : '/devicelog',
+	            data : JSON.stringify({
+					page:pageNo
+				}),
+	            dataType : 'json',               /*html, text, json, xml, script*/
+	            method : 'post',
+				contentType: 'application/json',
+	            success : function(res){
+					var list = res.list;
+				   
+					var html;
+				   $("#log_table > tbody").html("");
+				   
+				    $.each(list, function (index, el) {
+						html +="<tr>";
+						html +="	<td align='center'>"+el.seq+"</td>";
+						html +="	<td align='center'>"+el.device_id+"</td>";
+						html +="	<td align='center'>"+el.content_id+"</td>";
+						html +="	<td align='center'>"+el.content_state+"</td>";
+						html +="	<td align='center'>"+el.content_type+"</td>";
+						html +="	<td align='center'>"+el.content_screen_position+"</td>";
+						html +="	<td align='center'>"+el.content_screen_type+"</td>";
+						html +="	<td align='center'>"+el.reg_date+"</td>";
+						html +="</tr>";
+					});
+				   
+				   $("#log_table > tbody").html(html);
+	            },
+	            error : function(xhr, status, error){
+	                console.log(xhr.status);           // 에러코드(404, 500 등)
+	                console.log(xhr.responseText); // html 포맷의 에러 메시지
+	                console.log(status);                // 'error'
+	                console.log(error);                 // 'Not Found'
+	            }
+	        }
+	    );
+	}
+</script>
+</head>
+<body>
+<select onchange="fn_page(this.value)">
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	
+</select>
+<br>
+	<table id="log_table" border="1">
+		<thead>
+			<tr>
+				<th align="center">순번</th>
+				<th align="center">디바이스 ID</th>
+				<th align="center">컨텐츠 id</th>
+				<th align="center">컨텐츠 상태 값</th>
+				<th align="center">컨텐츠 타입 값</th>
+				<th align="center">재생중인 광고 영역 값 </th>
+				<th align="center">재생중인 광고 스크린 타입</th>
+				<th align="center">생성 날짜</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</body>
+</html>
