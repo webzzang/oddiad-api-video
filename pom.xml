@@ -168,7 +168,7 @@
   </dependencies>
 
   <build>
-    <finalName>video</finalName>
+    <finalName>media</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
