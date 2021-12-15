@@ -1,8 +1,8 @@
 #!/bin/bash
-APP_NAME="device"
+APP_NAME="media"
 # NextNow
-# SERVICE_HOME="/home/ec2-user/api/admin"
-SERVICE_HOME="/data001/oddiadm/device"
+# SERVICE_HOME="/home/ec2-user/api/media"
+SERVICE_HOME="/data001/oddiadm/media"
 JAR_NAME="$APP_NAME.jar"
 SERVICE_NAME="$APP_NAME-api"
 PATH_TO_JAR="$SERVICE_HOME/$JAR_NAME"
