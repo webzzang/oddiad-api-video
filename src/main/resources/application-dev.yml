@@ -20,7 +20,7 @@ spring:
         temp:
           use_jdbc_metadata_defaults=false: false
 logging:
-  config: classpath:logback-dev.xml
+  config: classpath:logback-file.xml
 
 # timezone
 timezone: "Asia/Seoul"

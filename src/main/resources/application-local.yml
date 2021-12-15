@@ -23,7 +23,7 @@ spring:
         format_sql: true
         use_sql_comments: true
 logging:
-  config: classpath:logback-local.xml
+  config: classpath:logback-console.xml
   level:
     org:
       hibernate:
