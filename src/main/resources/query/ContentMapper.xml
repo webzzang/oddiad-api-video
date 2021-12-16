@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.exflyer.oddi.app.repository.mapper.ContentMapper">
 
 
 	<!-- 컨텐츠 메인 조회 -->
 	<select id="getContentMainList" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.getContentMainList */
-		select 
-			  m.seq as broadcasting_seq
-			, m.device_id
-			, 'main' as position
+		/* ContentMapper.getContentMainList */
+		select
+			m.seq as broadcasting_seq
+				 , m.device_id
+				 , 'main' as position
 			, concat('main_', m.seq) as content_id
 			, CASE (select LOWER(substring_index(TRIM(BOTH ' ' FROM e.path), '.', -1)) as ext
 							from broadcasting_file e
@@ -19,23 +19,23 @@
 				WHEN 'm3u8' THEN 'video'
 				WHEN 'mp4' THEN 'video'
 				ELSE 'image'
-				END  AS content_type
+		END  AS content_type
 			, m.video_time*1000 AS content_duration  /* 플레이 시간 */
 			, m.adv_seq AS sort_no     /* 광고순번 */
 			, m.partner_seq   /* 파트너 순번 */
 		from broadcasting m
 		where m.device_id = #{device_id}
-		  and m.expo = '1'  /* 노출여부 */
+		and m.expo = '1'  /* 노출여부 */
 		order by m.adv_seq
 	</select>
 
 	<!-- 컨텐츠 메인 조회(백업) -->
 	<select id="getContentMainList_bak" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.getContentMainList */
-		select 
-			  m.seq as broadcasting_seq
-			, m.device_id
-			, 'main' as position
+		/* ContentMapper.getContentMainList */
+		select
+			m.seq as broadcasting_seq
+				 , m.device_id
+				 , 'main' as position
 			, concat('main_', m.seq) as content_id
 			, CASE (select LOWER(substring_index(TRIM(BOTH ' ' FROM e.path), '.', -1)) as ext
 							from broadcasting_file e
@@ -44,321 +44,321 @@
 				WHEN 'm3u8' THEN 'video'
 				WHEN 'mp4' THEN 'video'
 				ELSE 'image'
-				END  AS content_type
+		END  AS content_type
 			, m.video_time*1000 AS content_duration  /* 플레이 시간 */
 			, m.adv_seq AS sort_no     /* 광고순번 */
 			, m.partner_seq   /* 파트너 순번 */
 		from broadcasting m
 		where m.device_id = #{device_id}
-		  and m.expo = '1'  /* 노출여부 */
+		and m.expo = '1'  /* 노출여부 */
 		order by m.adv_seq
 	</select>
 
 	<!-- 컨텐츠 메인 파일 조회 -->
 	<select id="getContentMainFileUrl" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.getContentMainFileUrl */
-		select concat('main_', seq) as content_id, TRIM(BOTH ' ' FROM path) as content_url, seq as sort_no 
+		/* ContentMapper.getContentMainFileUrl */
+		select concat('main_', seq) as content_id, TRIM(BOTH ' ' FROM path) as content_url, seq as sort_no
 		from broadcasting_file
 		where broadcasting_seq = #{broadcasting_seq}
 		order by seq
 	</select>
 
-	
+
 	<!-- 컨텐츠 사이드 광고 조회 -->
 	<select id="getContentSideList" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.getContentSideList */
-		select 
-			  'image' as content_type
-			, concat('bottom_', banner_seq) as content_id
-			, video_time*1000 AS content_duration
-			, TRIM(BOTH ' ' FROM path) as content_url
+		/* ContentMapper.getContentSideList */
+		select
+			'image' as content_type
+				 , concat('side_', banner_seq) as content_id
+				 , video_time*1000 AS content_duration
+				 , TRIM(BOTH ' ' FROM path) as content_url
 		from banner_broadcasting
 		where location_code ='side'
-		
+
 		order by banner_seq
 	</select>
 
-	
-	
+
+
 	<!-- 컨텐츠 하단 하단 조회 -->
 	<select id="getContentBottomList" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.getContentBottomList */
-		select 
-			  'image' as content_type
-			, concat('bottom_', banner_seq) as content_id
-			, video_time*1000 AS content_duration
-			, TRIM(BOTH ' ' FROM path) as content_url
+		/* ContentMapper.getContentBottomList */
+		select
+			'image' as content_type
+				 , concat('bottom_', banner_seq) as content_id
+				 , video_time*1000 AS content_duration
+				 , TRIM(BOTH ' ' FROM path) as content_url
 		from banner_broadcasting
 		where location_code ='bottom'
-	
+
 		order by banner_seq
 	</select>
 
-	
+
 	<!-- 컨텐츠 사이드 날씨 조회 -->
 	<select id="getContentWeatherInfo" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.getContentWeatherInfo */
-		select 
-			  sky               /* 하늘 상태 */
-			, icon              /* 아이콘 */
-			, tmp               /* 기온 */
-			, tmn               /* 일 최저 기온 */
-			, tmx               /* 일 최고 기온 */
-			, pop               /* 강수 확률 */
-			, reh               /* 습도 */
-			, wsd               /* 풍속 */
-			, pm10              /* 미세먼지 농도 */
-			, pm25              /* 초미세먼지 농도 */
-			, pm10_grade        /* 미세먼지 등급 */
-			, pm25_grade        /* 초미세먼지 등급 */
-			, addr              /* 주소 */
+		/* ContentMapper.getContentWeatherInfo */
+		select
+			sky               /* 하늘 상태 */
+				 , icon              /* 아이콘 */
+				 , tmp               /* 기온 */
+				 , tmn               /* 일 최저 기온 */
+				 , tmx               /* 일 최고 기온 */
+				 , pop               /* 강수 확률 */
+				 , reh               /* 습도 */
+				 , wsd               /* 풍속 */
+				 , pm10              /* 미세먼지 농도 */
+				 , pm25              /* 초미세먼지 농도 */
+				 , pm10_grade        /* 미세먼지 등급 */
+				 , pm25_grade        /* 초미세먼지 등급 */
+				 , addr              /* 주소 */
 		from device_weather
 		where device_id = #{device_id}
 	</select>
-	
-	
+
+
 	<!-- 컨텐츠 디바이스 정보 -->
 	<select id="getContentDiviceInfo" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.getContentDiviceInfo */
+		/* ContentMapper.getContentDiviceInfo */
 		SELECT
-			  m.device_id                           /* id */
-			, pd.partner_seq                        /* 파트너 순번 */
-			, pd.name                               /* 이름 */
-			, pd.type                               /* 종류(크롬, TCL) */
-			, pd.reg_date                           /* 생성 날짜 */
-			, pd.reg_id                             /* 생성 id */
-			, pd.side_contents_type                 /* 측면 화면 서비스 코드 */
-			, pd.bottom_contents_type               /* 하단 화면 서비스 코드 */
-			, pd.display_div                        /* 화면 분할(1, 2, 3분할) */
-		from 
-		(
-			select #{device_id} as device_id
-		) m left outer join partner_device pd on (m.device_id = pd.device_id)
+			m.device_id                           /* id */
+				 , pd.partner_seq                        /* 파트너 순번 */
+				 , pd.name                               /* 이름 */
+				 , pd.type                               /* 종류(크롬, TCL) */
+				 , pd.reg_date                           /* 생성 날짜 */
+				 , pd.reg_id                             /* 생성 id */
+				 , pd.side_contents_type                 /* 측면 화면 서비스 코드 */
+				 , pd.bottom_contents_type               /* 하단 화면 서비스 코드 */
+				 , pd.display_div                        /* 화면 분할(1, 2, 3분할) */
+		from
+			(
+				select #{device_id} as device_id
+			) m left outer join partner_device pd on (m.device_id = pd.device_id)
 	</select>
-	
-	
+
+
 
 	<!-- 컨텐츠 Call 디바이스 로그 저장 -->
 	<insert id="insertCallApiLog" parameterType="java.util.HashMap" >
-	/* ContentMapper.insertCallApiLog */
+		/* ContentMapper.insertCallApiLog */
 		insert into device_broadcasting_call_log
 		(
-			  device_id            /* 디바이스 ID */
-			, position             /* main: 메인, side:사이드, bottom: 하단 */
-			, broadcasting_cnt     /* 불러온 광고 개수 */
-			, reg_date             /* 생성 날짜 */
+			device_id            /* 디바이스 ID */
+		, position             /* main: 메인, side:사이드, bottom: 하단 */
+		, broadcasting_cnt     /* 불러온 광고 개수 */
+		, reg_date             /* 생성 날짜 */
 		)
 		values
 		(
-			  #{device_id}
-			, #{position}
-			, #{broadcasting_cnt}
-			, #{sysdate}
+			#{device_id}
+		, #{position}
+		, #{broadcasting_cnt}
+		, #{sysdate}
 		)
-		
+
 	</insert>
 
 
 	<!-- 컨텐츠 재생 상태 저장 -->
 	<insert id="insertContentState" parameterType="java.util.HashMap" >
-	/* ContentMapper.insertContentState */
+		/* ContentMapper.insertContentState */
 		insert into device_content_state
 		(
-			  device_id             /* 디바이스 ID */  
-			, content_id            /* 컨텐츠 ID */   
-			, content_state         /* 컨텐츠 상태 값 */ 
-			, content_type          /* 컨텐츠 타입 값 */ 
-			, content_screen_position /* 재생중인 광고 영역 값 */
-			, content_screen_type /* 재생중인 광고 영역 타입 */
-			, mod_date              /* 변경 날짜 */ 
-			, content_ts            /* UNIX TIMESTAMP */   
+			device_id             /* 디바이스 ID */
+		, content_id            /* 컨텐츠 ID */
+		, content_state         /* 컨텐츠 상태 값 */
+		, content_type          /* 컨텐츠 타입 값 */
+		, content_screen_position /* 재생중인 광고 영역 값 */
+		, content_screen_type /* 재생중인 광고 영역 타입 */
+		, mod_date              /* 변경 날짜 */
+		, content_ts            /* UNIX TIMESTAMP */
 		)
 		values
 		(
-			  #{device_id}
-			, #{content_id}
-			, #{content_state}
-			, #{content_type}
-			, #{content_screen_position}
-			, #{content_screen_type}
-			, #{sysdate}
-			, #{content_ts}
+			#{device_id}
+		, #{content_id}
+		, #{content_state}
+		, #{content_type}
+		, #{content_screen_position}
+		, #{content_screen_type}
+		, #{sysdate}
+		, #{content_ts}
 		)
-		on duplicate key update
-			  content_id     = #{content_id}    
-			, content_state  = #{content_state} 
-			, content_type   = #{content_type}  
-			, content_screen_position = #{content_screen_position}
-			, content_screen_type = #{content_screen_type}
-			, mod_date       = #{sysdate}   
-			, content_ts     = #{content_ts}   
+			on duplicate key update
+												 content_id     = #{content_id}
+												 , content_state  = #{content_state}
+												 , content_type   = #{content_type}
+												 , content_screen_position = #{content_screen_position}
+												 , content_screen_type = #{content_screen_type}
+												 , mod_date       = #{sysdate}
+												 , content_ts     = #{content_ts}
 	</insert>
 
 	<!-- 컨텐츠 재생 상태 저장 -->
 	<insert id="insertContentStateHistory" parameterType="java.util.HashMap" >
-	/* ContentMapper.insertContentStateHistory */
+		/* ContentMapper.insertContentStateHistory */
 		insert into device_content_state_history
 		(
-			  device_id           /* 디바이스 ID */
-			, content_id          /* 컨텐츠 ID */
-			, content_state       /* 컨텐츠 상태 값 */
-			, content_type        /* 컨텐츠 타입 값 */
-			, content_screen_position /* 재생중인 광고 영역 값 */
-			, content_screen_type /* 재생중인 광고 영역 값 */
-			, reg_date            /* 생성 날짜 */
-			, content_ts            /* UNIX TIMESTAMP */   
+			device_id           /* 디바이스 ID */
+		, content_id          /* 컨텐츠 ID */
+		, content_state       /* 컨텐츠 상태 값 */
+		, content_type        /* 컨텐츠 타입 값 */
+		, content_screen_position /* 재생중인 광고 영역 값 */
+		, content_screen_type /* 재생중인 광고 영역 값 */
+		, reg_date            /* 생성 날짜 */
+		, content_ts            /* UNIX TIMESTAMP */
 		)
 		values
 		(
-			  #{device_id}
-			, #{content_id}
-			, #{content_state}
-			, #{content_type}
-			, #{content_screen_position}
-			, #{content_screen_type}
-			, #{sysdate}
-			, #{content_ts}
+			#{device_id}
+		, #{content_id}
+		, #{content_state}
+		, #{content_type}
+		, #{content_screen_position}
+		, #{content_screen_type}
+		, #{sysdate}
+		, #{content_ts}
 		)
 	</insert>
-	
-	
-	
+
+
+
 	<!-- 컨텐츠 파일 조회 -->
 	<select id="selectDeviceContentHistoryList" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.selectDeviceContentHistoryList */
-		select 
-			 seq
-		 , device_id
-		 , content_id
-		 , content_state
-		 , content_type
-		 , content_screen_position
-		 , content_screen_type
-		  , date_format(reg_date, '%Y-%m-%d %h:%i:%s') As reg_date
+		/* ContentMapper.selectDeviceContentHistoryList */
+		select
+			seq
+				 , device_id
+				 , content_id
+				 , content_state
+				 , content_type
+				 , content_screen_position
+				 , content_screen_type
+				 , date_format(reg_date, '%Y-%m-%d %h:%i:%s') As reg_date
 		from device_content_state_history
-		where 1=1 
-		  and content_screen_position = 'screen_pos_main'
+		where 1=1
+			and content_screen_position = 'screen_pos_main'
 		order by seq desc
-		limit #{pageNo}, 1000  
+			limit #{pageNo}, 1000
 	</select>
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 	<!-- 컨텐츠 조회 -->
 	<select id="getContentMainMP4List" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.getContentMainMP4List */
+		/* ContentMapper.getContentMainMP4List */
 		SELECT TA1.content_id, TA1.content_type, TA1.content_url, TA1.content_duration
 		FROM(
-				  select 'main1' as content_id , 'video' as content_type ,'http://oddiad-api.video.nextnow.kr/mp4/aespa_Next_Level.mp4' as content_url, '15000' as content_duration, 1 as sort_no
-		UNION ALL select 'main2' as content_id , 'video' as content_type ,'http://oddiad-api.video.nextnow.kr/mp4/Jessi_What_Type_of_X.mp4' as content_url, '15000' as content_duration, 2 as sort_no
-		UNION ALL select 'main3' as content_id , 'video' as content_type ,'http://oddiad-api.video.nextnow.kr/mp4/LABOUM_Journey_To_Atlantis.mp4' as content_url, '15000' as content_duration, 3 as sort_no
-		UNION ALL select 'main4' as content_id , 'video' as content_type ,'http://oddiad-api.video.nextnow.kr/mp4/Red_Velvet_Psycho.mp4' as content_url, '15000' as content_duration, 4 as sort_no
-		UNION ALL select 'main5' as content_id , 'video' as content_type ,'http://mr.tvnbox.com/mp4/(full)Adele_Easy_On_Me_Official.mp4' as content_url, '15000' as content_duration, 5 as sort_no
-		UNION ALL select 'main6' as content_id , 'video' as content_type ,'http://mr.tvnbox.com/mp4/(full)ZICO_Any_song.mp4' as content_url, '15000' as content_duration, 6 as sort_no
-		
-		)TA1
+					select 'main1' as content_id , 'video' as content_type ,'http://oddiad-api.video.nextnow.kr/mp4/aespa_Next_Level.mp4' as content_url, '15000' as content_duration, 1 as sort_no
+					UNION ALL select 'main2' as content_id , 'video' as content_type ,'http://oddiad-api.video.nextnow.kr/mp4/Jessi_What_Type_of_X.mp4' as content_url, '15000' as content_duration, 2 as sort_no
+					UNION ALL select 'main3' as content_id , 'video' as content_type ,'http://oddiad-api.video.nextnow.kr/mp4/LABOUM_Journey_To_Atlantis.mp4' as content_url, '15000' as content_duration, 3 as sort_no
+					UNION ALL select 'main4' as content_id , 'video' as content_type ,'http://oddiad-api.video.nextnow.kr/mp4/Red_Velvet_Psycho.mp4' as content_url, '15000' as content_duration, 4 as sort_no
+					UNION ALL select 'main5' as content_id , 'video' as content_type ,'http://mr.tvnbox.com/mp4/(full)Adele_Easy_On_Me_Official.mp4' as content_url, '15000' as content_duration, 5 as sort_no
+					UNION ALL select 'main6' as content_id , 'video' as content_type ,'http://mr.tvnbox.com/mp4/(full)ZICO_Any_song.mp4' as content_url, '15000' as content_duration, 6 as sort_no
+
+				)TA1
 		ORDER BY sort_no
 	</select>
 
 
 	<!-- 컨텐츠 조회 -->
 	<select id="getContentList_bak" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.getContentList */
+		/* ContentMapper.getContentList */
 		SELECT TA1.device_id, TA1.position, TA1.content_id, TA1.content_type, TA1.content_duration, TA1.sort_no
 		FROM(
-				  select 'testid' as device_id,'main' as position,  'main1' as content_id , 'video' as content_type , '15000' as content_duration, 1 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main2' as content_id , 'video' as content_type , '15000' as content_duration, 2 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main3' as content_id , 'video' as content_type , '15000' as content_duration, 3 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main4' as content_id , 'image' as content_type , '15000' as content_duration, 4 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main5' as content_id , 'image' as content_type , '15000' as content_duration, 5 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main6' as content_id , 'video' as content_type , '15000' as content_duration, 6 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main7' as content_id , 'image' as content_type , '15000' as content_duration, 7 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main8' as content_id , 'image' as content_type , '15000' as content_duration, 8 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main9' as content_id , 'video' as content_type , '15000' as content_duration, 9 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main10' as content_id , 'image' as content_type , '15000' as content_duration, 10 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main11' as content_id , 'video' as content_type , '15000' as content_duration, 11 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main12' as content_id , 'video' as content_type , '15000' as content_duration, 12 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main13' as content_id , 'image' as content_type , '15000' as content_duration, 13 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main14' as content_id , 'image' as content_type , '15000' as content_duration, 14 as sort_no
-		UNION ALL select 'testid' as device_id,'main' as position,  'main15' as content_id , 'video' as content_type , '15000' as content_duration, 15 as sort_no
-							
-		UNION ALL select 'testid' as device_id,'bottom' as position,  'bottom1' as content_id , 'image' as content_type , '15000' as content_duration, 1 as sort_no
-		UNION ALL select 'testid' as device_id,'bottom' as position,  'bottom2' as content_id , 'image' as content_type , '15000' as content_duration, 2 as sort_no
-		UNION ALL select 'testid' as device_id,'bottom' as position,  'bottom3' as content_id , 'image' as content_type , '15000' as content_duration, 3 as sort_no
-		UNION ALL select 'testid' as device_id,'bottom' as position,  'bottom4' as content_id , 'image' as content_type , '15000' as content_duration, 4 as sort_no
-		UNION ALL select 'testid' as device_id,'bottom' as position,  'bottom5' as content_id , 'image' as content_type , '15000' as content_duration, 5 as sort_no
-			
-		UNION ALL select 'testid' as device_id,'side' as position,  'side1' as content_id , 'image' as content_type , '15000' as content_duration, 1 as sort_no
-		UNION ALL select 'testid' as device_id,'side' as position,  'side2' as content_id , 'image' as content_type , '15000' as content_duration, 2 as sort_no
-		UNION ALL select 'testid' as device_id,'side' as position,  'side3' as content_id , 'image' as content_type , '15000' as content_duration, 3 as sort_no
-		UNION ALL select 'testid' as device_id,'side' as position,  'side4' as content_id , 'image' as content_type , '15000' as content_duration, 4 as sort_no
-	
-		)TA1
+					select 'testid' as device_id,'main' as position,  'main1' as content_id , 'video' as content_type , '15000' as content_duration, 1 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main2' as content_id , 'video' as content_type , '15000' as content_duration, 2 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main3' as content_id , 'video' as content_type , '15000' as content_duration, 3 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main4' as content_id , 'image' as content_type , '15000' as content_duration, 4 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main5' as content_id , 'image' as content_type , '15000' as content_duration, 5 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main6' as content_id , 'video' as content_type , '15000' as content_duration, 6 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main7' as content_id , 'image' as content_type , '15000' as content_duration, 7 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main8' as content_id , 'image' as content_type , '15000' as content_duration, 8 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main9' as content_id , 'video' as content_type , '15000' as content_duration, 9 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main10' as content_id , 'image' as content_type , '15000' as content_duration, 10 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main11' as content_id , 'video' as content_type , '15000' as content_duration, 11 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main12' as content_id , 'video' as content_type , '15000' as content_duration, 12 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main13' as content_id , 'image' as content_type , '15000' as content_duration, 13 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main14' as content_id , 'image' as content_type , '15000' as content_duration, 14 as sort_no
+					UNION ALL select 'testid' as device_id,'main' as position,  'main15' as content_id , 'video' as content_type , '15000' as content_duration, 15 as sort_no
+
+					UNION ALL select 'testid' as device_id,'bottom' as position,  'bottom1' as content_id , 'image' as content_type , '15000' as content_duration, 1 as sort_no
+					UNION ALL select 'testid' as device_id,'bottom' as position,  'bottom2' as content_id , 'image' as content_type , '15000' as content_duration, 2 as sort_no
+					UNION ALL select 'testid' as device_id,'bottom' as position,  'bottom3' as content_id , 'image' as content_type , '15000' as content_duration, 3 as sort_no
+					UNION ALL select 'testid' as device_id,'bottom' as position,  'bottom4' as content_id , 'image' as content_type , '15000' as content_duration, 4 as sort_no
+					UNION ALL select 'testid' as device_id,'bottom' as position,  'bottom5' as content_id , 'image' as content_type , '15000' as content_duration, 5 as sort_no
+
+					UNION ALL select 'testid' as device_id,'side' as position,  'side1' as content_id , 'image' as content_type , '15000' as content_duration, 1 as sort_no
+					UNION ALL select 'testid' as device_id,'side' as position,  'side2' as content_id , 'image' as content_type , '15000' as content_duration, 2 as sort_no
+					UNION ALL select 'testid' as device_id,'side' as position,  'side3' as content_id , 'image' as content_type , '15000' as content_duration, 3 as sort_no
+					UNION ALL select 'testid' as device_id,'side' as position,  'side4' as content_id , 'image' as content_type , '15000' as content_duration, 4 as sort_no
+
+				)TA1
 		WHERE TA1.device_id = #{device_id}
-		  AND TA1.position = #{position}
+			AND TA1.position = #{position}
 		ORDER BY sort_no
 	</select>
-	
+
 	<!-- 컨텐츠 파일 조회 -->
 	<select id="getContentFileUrl_bak" parameterType="java.util.HashMap" resultType="Map">
-	/* ContentMapper.getContentFileUrl */
+		/* ContentMapper.getContentFileUrl */
 		SELECT TA1.content_id, TA1.content_url, TA1.sort_no
 		FROM(
-		           select 'main1' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/232467ca579540ca9dd1d339809eaa9b.mp4/232467ca579540ca9dd1d339809eaa9b_30fps.m3u8' as content_url , 1 as sort_no
-		 UNION ALL select 'main2' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/81636556663841f4a181ddae5200e162.mp4/81636556663841f4a181ddae5200e162_30fps.m3u8' as content_url , 1 as sort_no
-		 UNION ALL select 'main3' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/7003cd2be7144eaaba583d533a828eee.mp4/7003cd2be7144eaaba583d533a828eee_30fps.m3u8' as content_url , 1 as sort_no
-		 UNION ALL select 'main4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_1.png' as content_url , 1 as sort_no
-		 UNION ALL select 'main4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_2.png' as content_url , 2 as sort_no
-		 UNION ALL select 'main4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_3.png' as content_url , 3 as sort_no
-		 UNION ALL select 'main4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_4.png' as content_url , 4 as sort_no
-		 UNION ALL select 'main5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_1.png' as content_url , 1 as sort_no
-		 UNION ALL select 'main5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_2.png' as content_url , 2 as sort_no
-		 UNION ALL select 'main5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_3.png' as content_url , 3 as sort_no
-		 UNION ALL select 'main5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_4.png' as content_url , 4 as sort_no
-		 UNION ALL select 'main5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_5.png' as content_url , 5 as sort_no
-		 UNION ALL select 'main6' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/81636556663841f4a181ddae5200e162.mp4/81636556663841f4a181ddae5200e162_30fps.m3u8' as content_url , 1 as sort_no
-		 UNION ALL select 'main7' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_3_1.png' as content_url , 1 as sort_no
-		 UNION ALL select 'main7' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_3_2.png' as content_url , 2 as sort_no
-		 UNION ALL select 'main7' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_3_3.png' as content_url , 3 as sort_no
-		 UNION ALL select 'main7' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_3_4.png' as content_url , 4 as sort_no
-		 UNION ALL select 'main8' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_4.png' as content_url , 1 as sort_no
-		 UNION ALL select 'main9' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/ace26ccc083a48bd8af96dc3d1d9e8ac.mp4/ace26ccc083a48bd8af96dc3d1d9e8ac_30fps.m3u8' as content_url , 1 as sort_no
-		 UNION ALL select 'main10' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_4.png' as content_url , 1 as sort_no
-		 UNION ALL select 'main11' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/1f60ccb2885e4bee880fece477a72f8f.mp4/1f60ccb2885e4bee880fece477a72f8f_30fps.m3u8' as content_url , 1 as sort_no
-		 UNION ALL select 'main12' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/232467ca579540ca9dd1d339809eaa9b.mp4/232467ca579540ca9dd1d339809eaa9b_30fps.m3u8' as content_url , 1 as sort_no		
-		 UNION ALL select 'main13' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_1.png' as content_url , 1 as sort_no
-		 UNION ALL select 'main13' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_2.png' as content_url , 2 as sort_no
-		 UNION ALL select 'main13' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_3.png' as content_url , 3 as sort_no
-		 UNION ALL select 'main13' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_4.png' as content_url , 4 as sort_no
-		 UNION ALL select 'main14' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_1.png' as content_url , 1 as sort_no
-		 UNION ALL select 'main14' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_2.png' as content_url , 2 as sort_no
-		 UNION ALL select 'main14' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_3.png' as content_url , 3 as sort_no
-		 UNION ALL select 'main14' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_4.png' as content_url , 4 as sort_no
-		 UNION ALL select 'main14' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_5.png' as content_url , 5 as sort_no
-		 UNION ALL select 'main15' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/81636556663841f4a181ddae5200e162.mp4/81636556663841f4a181ddae5200e162_30fps.m3u8' as content_url , 1 as sort_no
-	
-		 UNION ALL select 'bottom1' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/banner/5d4fc884ec3e472ea2a24d273545f116.png' as content_url , 1 as sort_no
-		 UNION ALL select 'bottom2' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_5.png' as content_url , 1 as sort_no
-		 UNION ALL select 'bottom2' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_6.png' as content_url , 2 as sort_no
-		 UNION ALL select 'bottom2' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_7.png' as content_url , 3 as sort_no
-		 UNION ALL select 'bottom2' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_8.png' as content_url , 4 as sort_no
-		 UNION ALL select 'bottom3' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_9.png' as content_url , 1 as sort_no
-		 UNION ALL select 'bottom4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_10.png' as content_url , 1 as sort_no
-		 UNION ALL select 'bottom5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_11.png' as content_url , 1 as sort_no
-		 
-		 UNION ALL select 'side1' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/banner/76d1d8530a324478a4dc4c0cb694dc6d.png' as content_url , 1 as sort_no
-		 UNION ALL select 'side2' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_12.png' as content_url , 1 as sort_no
-		 UNION ALL select 'side3' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_13.png' as content_url , 1 as sort_no
-		 UNION ALL select 'side4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_14.png' as content_url , 1 as sort_no
-		) TA1
+					select 'main1' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/232467ca579540ca9dd1d339809eaa9b.mp4/232467ca579540ca9dd1d339809eaa9b_30fps.m3u8' as content_url , 1 as sort_no
+					UNION ALL select 'main2' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/81636556663841f4a181ddae5200e162.mp4/81636556663841f4a181ddae5200e162_30fps.m3u8' as content_url , 1 as sort_no
+					UNION ALL select 'main3' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/7003cd2be7144eaaba583d533a828eee.mp4/7003cd2be7144eaaba583d533a828eee_30fps.m3u8' as content_url , 1 as sort_no
+					UNION ALL select 'main4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_1.png' as content_url , 1 as sort_no
+					UNION ALL select 'main4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_2.png' as content_url , 2 as sort_no
+					UNION ALL select 'main4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_3.png' as content_url , 3 as sort_no
+					UNION ALL select 'main4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_4.png' as content_url , 4 as sort_no
+					UNION ALL select 'main5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_1.png' as content_url , 1 as sort_no
+					UNION ALL select 'main5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_2.png' as content_url , 2 as sort_no
+					UNION ALL select 'main5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_3.png' as content_url , 3 as sort_no
+					UNION ALL select 'main5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_4.png' as content_url , 4 as sort_no
+					UNION ALL select 'main5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_5.png' as content_url , 5 as sort_no
+					UNION ALL select 'main6' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/81636556663841f4a181ddae5200e162.mp4/81636556663841f4a181ddae5200e162_30fps.m3u8' as content_url , 1 as sort_no
+					UNION ALL select 'main7' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_3_1.png' as content_url , 1 as sort_no
+					UNION ALL select 'main7' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_3_2.png' as content_url , 2 as sort_no
+					UNION ALL select 'main7' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_3_3.png' as content_url , 3 as sort_no
+					UNION ALL select 'main7' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_3_4.png' as content_url , 4 as sort_no
+					UNION ALL select 'main8' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_4.png' as content_url , 1 as sort_no
+					UNION ALL select 'main9' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/ace26ccc083a48bd8af96dc3d1d9e8ac.mp4/ace26ccc083a48bd8af96dc3d1d9e8ac_30fps.m3u8' as content_url , 1 as sort_no
+					UNION ALL select 'main10' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_4.png' as content_url , 1 as sort_no
+					UNION ALL select 'main11' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/1f60ccb2885e4bee880fece477a72f8f.mp4/1f60ccb2885e4bee880fece477a72f8f_30fps.m3u8' as content_url , 1 as sort_no
+					UNION ALL select 'main12' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/232467ca579540ca9dd1d339809eaa9b.mp4/232467ca579540ca9dd1d339809eaa9b_30fps.m3u8' as content_url , 1 as sort_no
+					UNION ALL select 'main13' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_1.png' as content_url , 1 as sort_no
+					UNION ALL select 'main13' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_2.png' as content_url , 2 as sort_no
+					UNION ALL select 'main13' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_3.png' as content_url , 3 as sort_no
+					UNION ALL select 'main13' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_1_4.png' as content_url , 4 as sort_no
+					UNION ALL select 'main14' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_1.png' as content_url , 1 as sort_no
+					UNION ALL select 'main14' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_2.png' as content_url , 2 as sort_no
+					UNION ALL select 'main14' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_3.png' as content_url , 3 as sort_no
+					UNION ALL select 'main14' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_4.png' as content_url , 4 as sort_no
+					UNION ALL select 'main14' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_2_5.png' as content_url , 5 as sort_no
+					UNION ALL select 'main15' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/adv/converted/81636556663841f4a181ddae5200e162.mp4/81636556663841f4a181ddae5200e162_30fps.m3u8' as content_url , 1 as sort_no
+
+					UNION ALL select 'bottom1' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/banner/5d4fc884ec3e472ea2a24d273545f116.png' as content_url , 1 as sort_no
+					UNION ALL select 'bottom2' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_5.png' as content_url , 1 as sort_no
+					UNION ALL select 'bottom2' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_6.png' as content_url , 2 as sort_no
+					UNION ALL select 'bottom2' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_7.png' as content_url , 3 as sort_no
+					UNION ALL select 'bottom2' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_8.png' as content_url , 4 as sort_no
+					UNION ALL select 'bottom3' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_9.png' as content_url , 1 as sort_no
+					UNION ALL select 'bottom4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_10.png' as content_url , 1 as sort_no
+					UNION ALL select 'bottom5' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_11.png' as content_url , 1 as sort_no
+
+					UNION ALL select 'side1' as content_id , 'https://skd-s3.s3.ap-northeast-2.amazonaws.com/oddiad/banner/76d1d8530a324478a4dc4c0cb694dc6d.png' as content_url , 1 as sort_no
+					UNION ALL select 'side2' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_12.png' as content_url , 1 as sort_no
+					UNION ALL select 'side3' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_13.png' as content_url , 1 as sort_no
+					UNION ALL select 'side4' as content_id , 'http://oddiad-api.video.nextnow.kr/images/content_14.png' as content_url , 1 as sort_no
+				) TA1
 		WHERE TA1.content_id = #{content_id}
 		ORDER BY TA1.sort_no
 	</select>
-		
-	
+
+
 </mapper>
