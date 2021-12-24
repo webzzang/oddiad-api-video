@@ -7,11 +7,11 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 @Slf4j
-public class OddiAdAppApiApiApplication extends SpringBootServletInitializer {
+public class MediaApiApplication extends SpringBootServletInitializer {
 
   public static void main(String[] args) {
 
-    SpringApplication.run(OddiAdAppApiApiApplication.class, args);
+    SpringApplication.run(MediaApiApplication.class, args);
     log.info("start!! oddi app api");
   }
 

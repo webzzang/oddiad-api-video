@@ -17,7 +17,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-//@Profile({"!production", "!op", "!prd"})
 @Slf4j
 public class SwaggerConfig {
 
