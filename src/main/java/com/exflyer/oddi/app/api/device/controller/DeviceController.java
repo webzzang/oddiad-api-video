@@ -1,18 +1,5 @@
 package com.exflyer.oddi.app.api.device.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.exflyer.oddi.app.api.device.dto.DeviceCreateReq;
 import com.exflyer.oddi.app.api.device.dto.DeviceException;
 import com.exflyer.oddi.app.api.device.dto.DeviceFcmRes;
@@ -26,10 +13,20 @@ import com.exflyer.oddi.app.exceptions.ApiException;
 import com.exflyer.oddi.app.share.LocalDateUtils;
 import com.exflyer.oddi.app.share.dto.ApiRes;
 import com.exflyer.oddi.app.share.dto.ApiResWithSingleData;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "디바이스 컨트롤러", protocols = "http")
 @Slf4j
@@ -63,7 +60,7 @@ public class DeviceController {
 		String device_id = "";
 	
 		while(true) {
-			device_id = StringUtil.RandomGen("3",6);
+			device_id = StringUtil.RandomGen("3",6).toUpperCase();
 			int cnt = deviceService.getDeviceIdChk(device_id);
 
 			if(cnt == 0) {
